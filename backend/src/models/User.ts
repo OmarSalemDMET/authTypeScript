@@ -7,7 +7,7 @@ export interface IUser extends Document {
   email: string;
   nationalID: string;
   password: string;
-  roles: string[];
+  role: string[];
   comparePassword: (enteredpassword: string) => boolean;
 }
 
@@ -29,7 +29,7 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
   },
-  roles: {
+  role: {
     type: [String],
     required: true,
     default: [Roles.User],

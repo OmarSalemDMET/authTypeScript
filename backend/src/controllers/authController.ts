@@ -3,28 +3,18 @@ import User from "../models/User";
 import { generateToken, clearToken } from "../utils/auth";
 
 const registerUser = async (req: Request, res: Response) => {
-  const { name, email, nationalID, password} = req.body;
-  const userExists = await User.findOne({ email }); //it searches the user table from mongoose;
+  const { name, email, nationalID, password, role } = req.body;
+  const userExists = await User.findOne({ email });
 
   if (userExists) {
-    res.status(400).json({ message: "The user already exists!" });
+    return res.status(400).json({ message: "The user already exists!" });
   }
 
-  const user = await User.create({
-    name,
-    email,
-    nationalID,
-    password,
-  }); // The reason we didn't need to right the {key : value}
-  // format is due to key = value
+  const user = await User.create({ name, email, nationalID, password, role });
 
   if (user) {
     generateToken(res, user._id.toString());
-    res.status(201).json({
-      id: user._id,
-      name: user.name,
-      email: user.email,
-    });
+    res.status(201).json({ id: user._id, name: user.name, email: user.email, role: user.role });
   } else {
     res.status(400).json({ message: "An error occurred in creating the user" });
   }
@@ -35,12 +25,8 @@ const authenticUser = async (req: Request, res: Response) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.comparePassword(password))) {
-    generateToken(res, user._id.toString());
-    res.status(201).json({
-      id: user._id,
-      name: user.name,
-      email: user.email,
-    });
+    const tokenID =  generateToken(res, user._id.toString());
+    res.status(201).json({ id: user._id, name: user.name, email: user.email, role: user.role[0], token: tokenID });
   } else {
     res.status(401).json({ message: "User not found / password incorrect" });
   }

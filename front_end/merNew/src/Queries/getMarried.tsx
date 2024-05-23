@@ -1,27 +1,22 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import "../pages/regInfo.css";
-import GetCountC from "../Queries/getCityCount.tsx";
-import GetFemale from "../Queries/getCountFemale.tsx";
-import GetMale from "../Queries/getCountMale.tsx";
-import Getmarried from "../Queries/getMarried.tsx";
+import axios from "axios";
+function Getmarried() {
+  interface TypeInfo {
+    first_name: string;
+    last_name: string;
+    gender: string;
+    date_of_birth: Date;
+    national_ID: string;
+    marital_status: string;
+    mobile_number: string;
+    academic_degree: string;
+    job_title: string;
+    address: string;
+    telephone: string;
+    NofamilyMem: number;
+  }
 
-interface TypeInfo {
-  first_name: string;
-  last_name: string;
-  gender: string;
-  date_of_birth: Date;
-  national_ID: string;
-  marital_status: string;
-  mobile_number: string;
-  academic_degree: string;
-  job_title: string;
-  address: string;
-  telephone: string;
-  NofamilyMem: number;
-}
-
-function DisplayInfo() {
   const [resData, setResData] = useState<TypeInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,9 +27,12 @@ function DisplayInfo() {
 
   const displayHandler = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/dispInfo", {
-        withCredentials: true, // Ensure cookies are sent
-      });
+      const response = await axios.get(
+        "http://localhost:3000/api/getMarriedInfo",
+        {
+          withCredentials: true, // Ensure cookies are sent
+        },
+      );
       setResData(response.data);
       setLoading(false);
       console.log(JSON.stringify(response.data));
@@ -49,52 +47,8 @@ function DisplayInfo() {
   useEffect(() => {
     displayHandler();
   }, []);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
-
   return (
     <div>
-      <div className="centerDiv">
-        <label className="smallHeader"> get Married couples</label>
-        <input type="checkbox" value="Married" onChange={() => { }} />
-        <label className="smallHeader"> get male count</label>
-        <input
-          type="checkbox"
-          value="Male"
-          onChange={() => {
-            setMcFlag(!mcFlag);
-          }}
-        />
-        <label className="smallHeader">get Female count</label>
-        <input
-          type="checkbox"
-          value="Female"
-          onChange={() => {
-            setFcFlag(!fcFlag);
-          }}
-        />
-        <label className="smallHeader"> get same address</label>
-        <input
-          type="checkbox"
-          value="Same address"
-          onChange={() => {
-            setCiFlag(!ciFlag);
-          }}
-        />
-      
-      </div>
-      <div>
-        {ciFlag && <GetCountC />}
-        {fcFlag && <GetFemale />}
-        {mcFlag && <GetMale />}
-        {maFlag && <Getmarried />}
-      </div>
       <ul>
         {resData.map((data, index) => (
           <li key={index}>
@@ -123,4 +77,4 @@ function DisplayInfo() {
   );
 }
 
-export default DisplayInfo;
+export default Getmarried;

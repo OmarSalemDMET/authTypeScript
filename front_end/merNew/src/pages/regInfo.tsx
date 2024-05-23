@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./regInfo.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function RegInfo() {
   const [first_name, setFirstName] = useState("");
@@ -50,6 +51,24 @@ function RegInfo() {
     }
   };
 
+  const navigate = useNavigate();
+
+    const handleLogout = async () =>{
+        try{
+            const response = await axios.post('http://localhost:3000/api/logout',{})
+
+            console.log(response)
+            const gUser = localStorage.getItem('user') || ""
+            const gpUser = JSON.parse(gUser)
+            localStorage.setItem('user', JSON.stringify({}));
+            gpUser.token = null
+
+            navigate('/login');
+        }catch(err){
+            console.log(err)
+        }
+    }
+
   return (
     <>
       <div>
@@ -69,6 +88,7 @@ function RegInfo() {
             type="text"
             className="InputSty"
             placeholder="First name"
+            required
           />{" "}
           <input
             value={last_name}
@@ -76,6 +96,7 @@ function RegInfo() {
             type="text"
             className="InputSty"
             placeholder="Last name"
+            required
           />{" "}
           <br /> <br />
           <select
@@ -84,6 +105,7 @@ function RegInfo() {
               setGender(e.target.value);
             }}
             className="SelectSty"
+            required
           >
             <option value={null || ""}>Select a Gender</option>
             <option value="Male">Male</option>
@@ -95,6 +117,7 @@ function RegInfo() {
             type="date"
             className="InputSty"
             placeholder="Date of Birth"
+            required
           />{" "}
           <br /> <br />
           <input
@@ -103,6 +126,7 @@ function RegInfo() {
             type="text"
             className="InputSty"
             placeholder="National ID"
+            required
           />{" "}
           <select
             value={marital_status}
@@ -110,6 +134,7 @@ function RegInfo() {
               setMaritalStatus(e.target.value);
             }}
             className="SelectSty2"
+            required
           >
             <option value={null || ""}>Select Status</option>
             <option value="Married">Married</option>
@@ -123,6 +148,7 @@ function RegInfo() {
             type="text"
             className="InputSty"
             placeholder="Mobile Number"
+            required
           />{" "}
           <input
             value={academic_degree}
@@ -130,6 +156,7 @@ function RegInfo() {
             type="text"
             className="InputSty"
             placeholder="Academic Degree"
+            required
           />{" "}
           <br /> <br />
           <input
@@ -138,6 +165,7 @@ function RegInfo() {
             type="text"
             className="InputSty"
             placeholder="Job Title"
+            required
           />{" "}
           <input
             value={address}
@@ -145,6 +173,7 @@ function RegInfo() {
             type="text"
             className="InputSty"
             placeholder="Address"
+            required
           />{" "}
           <br /> <br />
           <input
@@ -153,6 +182,7 @@ function RegInfo() {
             type="text"
             className="InputSty"
             placeholder="Telephone"
+            required
           />{" "}
           <input
             value={noOfFamilyMem}
@@ -160,9 +190,11 @@ function RegInfo() {
             type="number"
             className="InputSty"
             placeholder="Number of Family Members"
+            required
           />{" "}
           <br /> <br />
           <input type="submit" value="Submit" className="InputSty" />
+          <button onClick={handleLogout} className="InputSty">Log out</button>
         </form>
       </div>
     </>

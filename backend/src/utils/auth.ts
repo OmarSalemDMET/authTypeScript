@@ -6,13 +6,15 @@ const generateToken = (res: Response, userId: string) => {
   const token = jwt.sign({ userId }, jwtSecret, {
     expiresIn: "1h",
   });
-
+  console.log("token : ", token)
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development",
     sameSite: "strict",
     maxAge: 60 * 60 * 1000,
   });
+
+  return token;
 };
 
 const clearToken = (res: Response) => {

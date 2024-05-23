@@ -1,69 +1,42 @@
-import { useState } from "react";
-import "./regInfo.css";
-import axios from "axios";
+// src/pages/LoginPage.tsx
+import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import './regInfo.css'
+function  LoginPage(){
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-function LoginPanal() {
-  const [username, setUserName] = useState("");
-  const [passW, setPassW] = useState("");
-
-  const logInHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const payLoad = {
-      email: username,
-      password: passW,
-    };
-
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/Login",
-        payLoad,
-        {
-          headers: {
-            "content-type": "application/json",
-          },
-        },
-      );
-      console.log(JSON.stringify(response.data));
-      console.log(JSON.stringify(response.data.token));
-    } catch (err) {
-      console.log("there was an error  : ", err);
+      await login(email, password);
+      navigate('/');
+    } catch (error) {
+      console.error('Failed to login', error);
     }
   };
 
   return (
     <>
+    <div><h1 className='bigHeader'>Log In</h1></div>
+    <form onSubmit={handleSubmit}>
+      <div className='centerDiv'>
+        <div>
+        <label>Email</label>
+        <input className='InputSty' type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      </div>
       <div>
-        <h1 className="bigHeader">Login</h1>
+        <label>Password</label>
+        <input className='InputSty' type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
-      <div className="centerDiv">
-        <form onSubmit={logInHandler}>
-          <input
-            className="InputSty"
-            value={username}
-            onChange={(e) => {
-              setUserName(e.target.value);
-            }}
-            placeholder="Enter Email"
-            type="text"
-          />
-          <br />
-          <br />
-          <input
-            className="InputSty"
-            value={passW}
-            onChange={(e) => {
-              setPassW(e.target.value);
-            }}
-            placeholder="Enter Password"
-            type="password"
-          />
-          <br />
-          <br />
-          <input type="submit" className="InputSty" value="Submit" />
-        </form>
+      <button className='InputSty' type="submit">Login</button>
       </div>
+    </form>
     </>
   );
-}
+};
 
-export default LoginPanal;
+export default LoginPage;
