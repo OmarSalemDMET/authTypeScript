@@ -1,0 +1,82 @@
+.InputSty {
+  padding: 10px;
+  margin: 10px;
+  font-weight: bolder;
+}
+
+.centerDiv {
+  margin: 30px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  align-self: center;
+}
+
+.SelectSty {
+  padding: 10px;
+  margin: 10px;
+  width: 265px;
+}
+
+.SelectSty2 {
+  padding: 10px;
+  margin: 10px;
+  width: 200px;
+}
+
+.bigHeader {
+  display: flex;
+  justify-content: center;
+  font-size: xx-large;
+  font-weight: bolder;
+  font-family: "Courier New", Courier, monospace;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.smallHeader {
+  display: flex;
+  justify-content: center;
+  font-size: large;
+  font-weight: bolder;
+  font-family: "Courier New", Courier, monospace;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.navbar {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.navbar-logo {
+  font-size: 1.5rem;
+}
+
+.navbar-menu {
+  list-style: none;
+  display: flex;
+}
+
+.navbar-item {
+  margin-right: 20px;
+}
+
+.navbar-item a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.navbar-item a:hover {
+  color: #ffcc00;
+}

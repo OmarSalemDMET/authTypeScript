@@ -1,0 +1,9 @@
+.buttonSty{
+    paddin: 20px;
+    margin: 15px;
+    background-color: rgb(53, 127, 255);
+    color: white;
+    font-weight: bolder;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: xx-large;
+}

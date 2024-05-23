@@ -3,10 +3,10 @@ import User from "../models/User";
 
 const getUser = async (req: Request, res: Response) => {
   const userId = req.user?._id;
-  const user = await User.findById(userId, "name email");
+  const user = await User.findById(userId, "name email role");
 
   if (!user) {
-    res.status(400);
+    return res.status(400).json({ message: "User not found" });
   }
 
   res.status(200).json(user);
