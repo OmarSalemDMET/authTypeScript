@@ -3,7 +3,7 @@ import User from "../models/User";
 import { generateToken, clearToken } from "../utils/auth";
 
 const registerUser = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  const { name, email, nationalID, password} = req.body;
   const userExists = await User.findOne({ email }); //it searches the user table from mongoose;
 
   if (userExists) {
@@ -13,6 +13,7 @@ const registerUser = async (req: Request, res: Response) => {
   const user = await User.create({
     name,
     email,
+    nationalID,
     password,
   }); // The reason we didn't need to right the {key : value}
   // format is due to key = value
